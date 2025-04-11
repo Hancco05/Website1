@@ -1,0 +1,10 @@
+miweb/
+├── pom.xml
+└── src/
+    ├── main/
+    │   ├── java/
+    │   │   └── com/miweb/App.java
+    │   └── resources/
+    └── test/
+        └── java/
+            └── com/miweb/AppTest.java
