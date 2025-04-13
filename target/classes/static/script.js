@@ -1,1 +1,3 @@
-console.log("Hola desde JavaScript");
+function saludar() {
+    alert("¡Hola desde JavaScript!");
+}
