@@ -29,7 +29,17 @@
       <artifactId>spring-boot-starter-web</artifactId>
       <version>3.2.5</version>
     </dependency>
+    
+    <!-- Spring Boot thymelaf -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+      <version>3.2.5</version>
+    </dependency>
+
   </dependencies>
+
+  
 
   <!-- Plugins -->
   <build>

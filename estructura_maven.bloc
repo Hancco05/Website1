@@ -1,12 +1,13 @@
 miweb/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── miweb/
+│   │   │           └── MiwebApplication.java
+│   │   └── resources/
+│   │       ├── static/             ← (opcional para CSS/JS/imagenes)
+│   │       ├── templates/          ← (aquí van las vistas HTML)
+│   │       │   └── index.html
+│   │       └── application.properties
 ├── pom.xml
-└── src/
-    └── main/
-        ├── java/
-        │   └── com/miweb/demo/DemoApplication.java
-        ├── resources/
-        │   ├── static/          ← aquí va HTML, CSS, JS
-        │   │   ├── index.html
-        │   │   ├── style.css
-        │   │   └── script.js
-        │   └── application.properties
