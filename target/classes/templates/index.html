@@ -2,10 +2,36 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Mi Página Web</title>
+    <title>Registro de Usuarios</title>
+    <link rel="stylesheet" href="css/estilos.css" />
   </head>
   <body>
-    <h1>¡Bienvenido a mi sitio con Spring Boot!</h1>
-    <p>Esto es una vista cargada desde templates/index.html</p>
+    <div class="contenedor">
+      <h1>Registro de Usuario</h1>
+      <form id="formulario-registro">
+        <input type="text" id="nombre" placeholder="Nombre completo" required />
+        <input
+          type="email"
+          id="email"
+          placeholder="Correo electrónico"
+          required
+        />
+        <input
+          type="password"
+          id="password"
+          placeholder="Contraseña"
+          required
+        />
+        <input
+          type="password"
+          id="confirmar"
+          placeholder="Confirmar contraseña"
+          required
+        />
+        <button type="submit">Registrar</button>
+        <p id="mensaje"></p>
+      </form>
+    </div>
+    <script src="js/script.js"></script>
   </body>
 </html>
