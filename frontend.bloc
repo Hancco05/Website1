@@ -1,0 +1,59 @@
+¡Claro! Aquí tienes un **resumen breve tipo "blog interno"** del proyecto frontend hasta ahora, ideal para documentarlo dentro de tu carpeta o como referencia futura:
+
+---
+
+### 📝 Blog del Proyecto – Frontend (Registro/Login)
+
+#### 🔹 Fase: Desarrollo Frontend  
+#### 🔹 Estado: ✅ Completado el flujo básico de autenticación  
+#### 🔹 Objetivo: Simular un sistema de registro/login con HTML, CSS y JS (sin backend aún)
+
+---
+
+### 📂 Estructura de vistas actual:
+
+| Archivo | Descripción |
+|--------|-------------|
+| `index.html` | Página principal con formulario de registro de usuario (nombre, email, contraseña). |
+| `login.html` | Vista de inicio de sesión (usuario + contraseña). |
+| `dashboard.html` | Panel privado del usuario logueado con diseño distinto y opción para cerrar sesión. |
+| `exito.html` | Página simple que muestra que el registro fue exitoso (puede eliminarse o reemplazarse más adelante). |
+
+---
+
+### 🧠 Lógica implementada (JavaScript):
+
+- **Registro (`index.html` + `js/script.js`)**
+  - Valida campos.
+  - Compara contraseñas.
+  - Guarda usuario y contraseña en `localStorage`.
+
+- **Login (`login.html` + `js/login.js`)**
+  - Verifica usuario/clave contra los datos del registro.
+  - Si es correcto, redirige a `dashboard.html`.
+  - Guarda sesión activa en `localStorage`.
+
+- **Dashboard (`dashboard.html`)**
+  - Verifica si hay sesión activa (`usuarioActivo`).
+  - Si no, redirige automáticamente a `login.html`.
+  - Muestra mensaje personalizado y botón para cerrar sesión (elimina sesión y vuelve al login).
+
+---
+
+### 🎨 Estilos:
+
+- Archivos de estilos separados:
+  - `css/estilos.css` → estilos para `index.html` y `login.html`.
+  - `css/dashboard.css` → diseño más moderno para la vista de usuario logueado (`dashboard.html`).
+
+---
+
+### ✅ Estado final del frontend:
+
+- Todo el flujo está funcionando 100% solo con **HTML, CSS y JS puro**.
+- Datos simulados se guardan temporalmente en `localStorage` del navegador.
+- Preparado para la siguiente fase: **backend con Java + Maven (Spring Boot u otro)**.
+
+---
+
+¿Quieres que este texto lo agregue a un `README.md` o a un `.txt` dentro del proyecto? También lo puedo formatear en HTML si quieres que se muestre como una página.
