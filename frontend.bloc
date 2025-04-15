@@ -53,7 +53,3 @@
 - Todo el flujo está funcionando 100% solo con **HTML, CSS y JS puro**.
 - Datos simulados se guardan temporalmente en `localStorage` del navegador.
 - Preparado para la siguiente fase: **backend con Java + Maven (Spring Boot u otro)**.
-
----
-
-¿Quieres que este texto lo agregue a un `README.md` o a un `.txt` dentro del proyecto? También lo puedo formatear en HTML si quieres que se muestre como una página.
