@@ -53,3 +53,11 @@
 - Todo el flujo está funcionando 100% solo con **HTML, CSS y JS puro**.
 - Datos simulados se guardan temporalmente en `localStorage` del navegador.
 - Preparado para la siguiente fase: **backend con Java + Maven (Spring Boot u otro)**.
+
+📂 Estructura de vistas actual:
+
+Archivo	Descripción
+index.html	Página principal con formulario de registro de usuario (nombre, email, contraseña).
+login.html	Vista de inicio de sesión (usuario + contraseña).
+dashboard.html	Panel privado del usuario logueado con diseño distinto y opción para cerrar sesión.
+exito.html	Página simple que muestra que el registro fue exitoso (puede eliminarse o reemplazarse más adelante).
