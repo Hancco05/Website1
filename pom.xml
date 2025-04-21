@@ -5,7 +5,6 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <!-- Grupo e ID -->
   <groupId>com.miweb</groupId>
   <artifactId>miweb</artifactId>
   <version>1.0-SNAPSHOT</version>
@@ -13,7 +12,6 @@
   <name>miweb</name>
   <url>http://maven.apache.org</url>
 
-  <!-- Dependencias -->
   <dependencies>
     <!-- JUnit para tests -->
     <dependency>
@@ -30,48 +28,59 @@
       <version>3.2.5</version>
     </dependency>
     
-    <!-- Spring Boot thymelaf -->
+    <!-- Spring Boot Thymeleaf -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
       <version>3.2.5</version>
     </dependency>
 
+    <!-- Spring Boot Data JPA -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+      <version>3.2.5</version>
+    </dependency>
+
+    <!-- Driver MySQL -->
+    <dependency>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+      <version>8.0.33</version>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
 
-  
-
-  <!-- Plugins -->
   <build>
-  <plugins>
-    <!-- Spring Boot plugin -->
-    <plugin>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-maven-plugin</artifactId>
-      <version>3.2.5</version>
-    </plugin>
+    <plugins>
+      <!-- Spring Boot plugin -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>3.2.5</version>
+      </plugin>
 
-    <!-- Exec plugin que ya tenías -->
-    <plugin>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>exec-maven-plugin</artifactId>
-      <version>3.1.0</version>
-      <configuration>
-        <mainClass>com.miweb.App</mainClass>
-      </configuration>
-    </plugin>
+      <!-- Exec plugin -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <mainClass>com.miweb.App</mainClass>
+        </configuration>
+      </plugin>
 
-    <!-- FIX: Configurar Java moderno -->
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-compiler-plugin</artifactId>
-      <version>3.10.1</version>
-      <configuration>
-        <source>17</source> <!-- Usa la versión de Java que tengas -->
-        <target>17</target>
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
+      <!-- Configuración moderna de Java -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
+        <configuration>
+          <source>17</source>
+          <target>17</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
