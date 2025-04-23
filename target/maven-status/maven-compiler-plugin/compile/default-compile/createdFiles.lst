@@ -1,1 +1,5 @@
 com\miweb\App.class
+com\miweb\model\Usuario.class
+com\miweb\HomeController.class
+com\miweb\repository\UsuarioRepository.class
+com\miweb\controller\UsuarioController.class
