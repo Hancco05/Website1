@@ -1,19 +1,36 @@
 package com.miweb.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nombre;
-    private String correo;
-    private int edad;
 
-    // Getters y Setters
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "fecha_registro")
+    private LocalDate fechaRegistro;
+
+    // Constructores
+    public Usuario() {
+    }
+
+    public Usuario(String nombre, String email, LocalDate fechaRegistro) {
+        this.nombre = nombre;
+        this.email = email;
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -30,19 +47,19 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getEdad() {
-        return edad;
+    public LocalDate getFechaRegistro() {
+        return fechaRegistro;
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
     }
 }
