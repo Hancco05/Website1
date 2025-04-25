@@ -7,19 +7,11 @@
   <body>
     <h1>Formulario de Registro</h1>
 
-    <form
-      action="#"
-      th:action="@{/guardar}"
-      th:object="${usuario}"
-      method="post"
-    >
-      <label for="nombre">Nombre:</label>
-      <input type="text" th:field="*{nombre}" required />
-
-      <label for="email">Email:</label>
-      <input type="email" th:field="*{email}" required />
-
-      <button type="submit">Guardar</button>
+    <form action="/guardar" method="post">
+      Nombre: <input type="text" name="nombre" required /><br />
+      Email: <input type="email" name="email" required /><br />
+      Contraseña: <input type="password" name="contraseña" required /><br />
+      <button type="submit">Registrar</button>
     </form>
   </body>
 </html>

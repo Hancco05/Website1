@@ -4,5 +4,5 @@ import com.miweb.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    // Puedes agregar métodos personalizados si necesitas
+    Usuario findByEmail(String email); // ← este es el método que necesitas
 }

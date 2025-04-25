@@ -17,16 +17,21 @@ public class Usuario {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String contraseña;
+
     @Column(name = "fecha_registro")
     private LocalDate fechaRegistro;
 
     // Constructores
     public Usuario() {
+        this.fechaRegistro = LocalDate.now();
     }
 
-    public Usuario(String nombre, String email, LocalDate fechaRegistro) {
+    public Usuario(String nombre, String email, String contraseña, LocalDate fechaRegistro) {
         this.nombre = nombre;
         this.email = email;
+        this.contraseña = contraseña;
         this.fechaRegistro = fechaRegistro;
     }
 
@@ -53,6 +58,14 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 
     public LocalDate getFechaRegistro() {

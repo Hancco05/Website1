@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Controller
 public class UsuarioController {
@@ -16,30 +17,53 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // Muestra el formulario
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @GetMapping("/")
     public String mostrarFormulario(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "formulario";
     }
 
-    // Procesa los datos enviados desde el formulario
     @PostMapping("/guardar")
     public String guardarUsuario(@Valid @ModelAttribute Usuario usuario, BindingResult result) {
         if (result.hasErrors()) {
-            // Si hay errores de validación, vuelve al formulario con los mensajes de error
             return "formulario";
         }
 
         try {
+            // Cifrar contraseña
+            String contraseñaCifrada = passwordEncoder.encode(usuario.getContraseña());
+            usuario.setContraseña(contraseñaCifrada);
+
             usuarioRepository.save(usuario);
         } catch (Exception e) {
-            // Loguea el error en consola y redirige al formulario con un mensaje de error
             e.printStackTrace();
             return "formulario";
         }
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
+    // Mostrar login
+    @GetMapping("/login")
+    public String mostrarLogin(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "login"; // vista login.html
+    }
+
+    // Procesar login
+    @PostMapping("/login")
+    public String procesarLogin(@ModelAttribute Usuario usuario, Model model) {
+        Usuario usuarioEnDB = usuarioRepository.findByEmail(usuario.getEmail());
+        if (usuarioEnDB != null && passwordEncoder.matches(usuario.getContraseña(), usuarioEnDB.getContraseña())) {
+            // Login exitoso
+            model.addAttribute("nombreUsuario", usuarioEnDB.getNombre());
+            return "bienvenido"; // vista para bienvenida
+        } else {
+            // Login fallido
+            model.addAttribute("error", "Email o contraseña incorrecta.");
+            return "login";
+        }
+    }
 }
