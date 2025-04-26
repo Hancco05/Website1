@@ -1,1 +1,12 @@
-<h1>Bienvenido, <span th:text="${nombreUsuario}"></span>!</h1>
+<!-- bienvenido.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Bienvenido</title>
+  </head>
+  <body>
+    <h2>¡Bienvenido, <span th:text="${nombreUsuario}"></span>!</h2>
+    <p>Has iniciado sesión correctamente.</p>
+    <a th:href="@{/login}">Cerrar sesión</a>
+  </body>
+</html>
