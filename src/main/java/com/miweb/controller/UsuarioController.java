@@ -3,13 +3,13 @@ package com.miweb.controller;
 import com.miweb.model.Usuario;
 import com.miweb.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.time.LocalDate;
 
 @Controller
 public class UsuarioController {
@@ -19,29 +19,51 @@ public class UsuarioController {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    @GetMapping("/")
-    public String mostrarFormulario(Model model) {
+    // Mostrar formulario de registro
+    @GetMapping("/registro")
+    public String mostrarFormularioRegistro(Model model) {
         model.addAttribute("usuario", new Usuario());
-        return "formulario";
+        return "registro";
     }
 
+    // Guardar usuario
     @PostMapping("/guardar")
-    public String guardarUsuario(@Valid @ModelAttribute Usuario usuario, BindingResult result) {
-        if (result.hasErrors()) {
-            return "formulario";
+    public String guardarUsuario(
+            @RequestParam("nombre") String nombre,
+            @RequestParam("email") String email,
+            @RequestParam("nombreUsuario") String nombreUsuario,
+            @RequestParam("fechaNacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaNacimiento,
+            @RequestParam("edad") int edad,
+            @RequestParam("genero") String genero,
+            @RequestParam("contraseña") String contraseña,
+            @RequestParam("confirmarContraseña") String confirmarContraseña,
+            Model model) {
+        // Validar contraseñas
+        if (!contraseña.equals(confirmarContraseña)) {
+            model.addAttribute("error", "Las contraseñas no coinciden.");
+            return "registro";
         }
 
-        try {
-            // Cifrar contraseña
-            String contraseñaCifrada = passwordEncoder.encode(usuario.getContraseña());
-            usuario.setContraseña(contraseñaCifrada);
-
-            usuarioRepository.save(usuario);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "formulario";
+        // Validar email existente
+        if (usuarioRepository.findByEmail(email) != null) {
+            model.addAttribute("error", "El correo ya está registrado.");
+            return "registro";
         }
 
+        // Crear nuevo usuario
+        Usuario usuario = new Usuario();
+        usuario.setNombre(nombre);
+        usuario.setEmail(email);
+        usuario.setNombreUsuario(nombreUsuario);
+        usuario.setFechaNacimiento(fechaNacimiento);
+        usuario.setEdad(edad);
+        usuario.setGenero(genero);
+        usuario.setFechaRegistro(LocalDate.now());
+
+        String contraseñaCifrada = passwordEncoder.encode(contraseña);
+        usuario.setContraseña(contraseñaCifrada);
+
+        usuarioRepository.save(usuario);
         return "redirect:/login";
     }
 
@@ -49,7 +71,7 @@ public class UsuarioController {
     @GetMapping("/login")
     public String mostrarLogin(Model model) {
         model.addAttribute("usuario", new Usuario());
-        return "login"; // vista login.html
+        return "login";
     }
 
     // Procesar login
@@ -57,13 +79,17 @@ public class UsuarioController {
     public String procesarLogin(@ModelAttribute Usuario usuario, Model model) {
         Usuario usuarioEnDB = usuarioRepository.findByEmail(usuario.getEmail());
         if (usuarioEnDB != null && passwordEncoder.matches(usuario.getContraseña(), usuarioEnDB.getContraseña())) {
-            // Login exitoso
-            model.addAttribute("nombreUsuario", usuarioEnDB.getNombre());
-            return "bienvenido"; // vista para bienvenida
+            model.addAttribute("nombreUsuario", usuarioEnDB.getNombreUsuario());
+            return "bienvenido";
         } else {
-            // Login fallido
             model.addAttribute("error", "Email o contraseña incorrecta.");
             return "login";
         }
+    }
+
+    // Cerrar sesión (opcional)
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/login";
     }
 }
