@@ -62,5 +62,5 @@ login.html	Vista de inicio de sesión (usuario + contraseña).
 dashboard.html	Panel privado del usuario logueado con diseño distinto y opción para cerrar sesión.
 exito.html	Página simple que muestra que el registro fue exitoso (puede eliminarse o reemplazarse más adelante).
 
-backend con java maven11
+backend con java mavennn2
 
