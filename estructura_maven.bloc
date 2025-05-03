@@ -1,13 +1,13 @@
-miweb/
+/backend/
 ├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/
-│   │   │       └── miweb/
-│   │   │           └── MiwebApplication.java
-│   │   └── resources/
-│   │       ├── static/             ← (opcional para CSS/JS/imagenes)
-│   │       ├── templates/          ← (aquí van las vistas HTML)
-│   │       │   └── index.html
-│   │       └── application.properties
-├── pom.xml
+│   └── main/
+│       ├── java/com/miweb/
+│       │   ├── controller/
+│       │   │   └── UsuarioController.java
+│       │   ├── model/
+│       │   │   └── Usuario.java
+│       │   ├── repository/
+│       │   │   └── UsuarioRepository.java
+│       │   └── MiwebApplication.java
+│       └── resources/
+│           ├── application.properties
