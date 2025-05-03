@@ -1,55 +1,35 @@
 package com.miweb.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.miweb.model.Usuario;
-import com.miweb.repository.UsuarioRepository;
-
-import jakarta.validation.Valid;
+import com.miweb.Service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/usuarios") // Organización de rutas para React
+@RequestMapping("/api/usuarios")
+@CrossOrigin(origins = "http://localhost:3000") // React local, ajusta si es necesario
 public class UsuarioController {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/guardar")
-    public String guardarUsuario(@Valid @RequestBody Usuario usuario, BindingResult result) {
-        if (result.hasErrors()) {
-            return "Error en los datos enviados.";
-        }
-
-        try {
-            String contraseñaCifrada = passwordEncoder.encode(usuario.getContraseña());
-            usuario.setContraseña(contraseñaCifrada);
-            usuarioRepository.save(usuario);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Error al guardar el usuario.";
-        }
-
-        return "Usuario registrado exitosamente.";
+    // Registro de usuario
+    @PostMapping("/register")
+    public Usuario registrarUsuario(@RequestBody Usuario usuario) {
+        return usuarioService.registrarUsuario(usuario);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    // Autenticación de usuario (login)
     @PostMapping("/login")
-    public String procesarLogin(@RequestBody Usuario usuario) {
-        Usuario usuarioEnDB = usuarioRepository.findByEmail(usuario.getEmail());
-        if (usuarioEnDB != null && passwordEncoder.matches(usuario.getContraseña(), usuarioEnDB.getContraseña())) {
-            return "Bienvenido, " + usuarioEnDB.getNombre();
+    public String login(@RequestBody Usuario usuario) {
+        boolean autenticado = usuarioService.autenticarUsuario(
+                usuario.getCorreo(),
+                usuario.getContraseña());
+
+        if (autenticado) {
+            return "Inicio de sesión exitoso";
         } else {
-            return "Email o contraseña incorrecta.";
+            return "Correo o contraseña incorrectos";
         }
     }
 }

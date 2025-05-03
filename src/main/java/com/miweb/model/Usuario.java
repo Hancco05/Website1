@@ -1,23 +1,27 @@
 package com.miweb.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
-    private String email;
-    private String nombreUsuario;
-    private LocalDate fechaNacimiento;
-    private int edad;
-    private String genero;
+
+    @NotBlank(message = "El correo no puede estar vacío")
+    @Email(message = "El correo debe ser válido")
+    @Column(unique = true)
+    private String correo;
+
+    @NotBlank(message = "La contraseña no puede estar vacía")
     private String contraseña;
-    private LocalDate fechaRegistro;
 
     // Getters y Setters
 
@@ -37,44 +41,12 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
-
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public String getContraseña() {
@@ -83,13 +55,5 @@ public class Usuario {
 
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
-    }
-
-    public LocalDate getFechaRegistro() {
-        return fechaRegistro;
-    }
-
-    public void setFechaRegistro(LocalDate fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
     }
 }
