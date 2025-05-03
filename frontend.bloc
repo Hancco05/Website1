@@ -64,3 +64,13 @@ exito.html	Página simple que muestra que el registro fue exitoso (puede elimina
 
 backend con java mavennn2
 
+/frontend
+├── /node_modules
+├── /public
+├── /src
+│   ├── App.css
+│   ├── App.js
+│   ├── index.js
+│   └── ...
+├── package.json
+└── ...
