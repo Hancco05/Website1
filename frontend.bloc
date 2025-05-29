@@ -11,3 +11,5 @@ registro-login-backend/
 │   │       ├── application.properties
 │   │       └── static/ (si usas archivos estáticos como JS/CSS)
 ├── pom.xmlll
+
+crear de nuevo el proyecto
