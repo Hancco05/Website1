@@ -10,4 +10,4 @@ registro-login-backend/
 │   │   └── resources/
 │   │       ├── application.properties
 │   │       └── static/ (si usas archivos estáticos como JS/CSS)
-├── pom.xml
+├── pom.xmlll
