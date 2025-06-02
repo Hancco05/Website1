@@ -1,35 +1,32 @@
-package com.miweb.controller;
+package com.miweb.authapp.controller;
 
-import com.miweb.model.Usuario;
-import com.miweb.Service.UsuarioService;
+import com.miweb.authapp.model.Usuario;
+import com.miweb.authapp.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/api/usuarios")
-@CrossOrigin(origins = "http://localhost:3000") // React local, ajusta si es necesario
+@RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
-    // Registro de usuario
-    @PostMapping("/register")
-    public Usuario registrarUsuario(@RequestBody Usuario usuario) {
+    @PostMapping("/registro")
+    public boolean registrar(@RequestBody Usuario usuario) {
         return usuarioService.registrarUsuario(usuario);
     }
 
-    // Autenticación de usuario (login)
     @PostMapping("/login")
-    public String login(@RequestBody Usuario usuario) {
-        boolean autenticado = usuarioService.autenticarUsuario(
-                usuario.getCorreo(),
-                usuario.getContraseña());
+    public boolean login(@RequestBody Usuario usuario) {
+        return usuarioService.login(usuario.getEmail(), usuario.getPassword()).isPresent();
+    }
 
-        if (autenticado) {
-            return "Inicio de sesión exitoso";
-        } else {
-            return "Correo o contraseña incorrectos";
-        }
+    @GetMapping("/usuario/{email}")
+    public Optional<Usuario> obtenerUsuario(@PathVariable String email) {
+        return usuarioService.buscarPorEmail(email);
     }
 }

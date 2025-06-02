@@ -1,29 +1,19 @@
-package com.miweb.model;
+package com.miweb.authapp.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "usuarios")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
+    private String email;
+    private String password;
 
-    @NotBlank(message = "El correo no puede estar vacío")
-    @Email(message = "El correo debe ser válido")
-    @Column(unique = true)
-    private String correo;
-
-    @NotBlank(message = "La contraseña no puede estar vacía")
-    private String contraseña;
-
-    // Getters y Setters
+    // Getters y setters
 
     public Long getId() {
         return id;
@@ -41,19 +31,19 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

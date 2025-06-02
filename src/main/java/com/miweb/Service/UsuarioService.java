@@ -1,10 +1,11 @@
-package com.miweb.Service;
+package com.miweb.authapp.service;
 
-import com.miweb.model.Usuario;
-import com.miweb.repository.UsuarioRepository;
+import com.miweb.authapp.model.Usuario;
+import com.miweb.authapp.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -12,23 +13,19 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-    public Usuario registrarUsuario(Usuario usuario) {
-        if (usuarioRepository.findByCorreo(usuario.getCorreo()) != null) {
-            throw new RuntimeException("Correo ya registrado.");
+    public boolean registrarUsuario(Usuario usuario) {
+        if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
+            return false; // Usuario ya existe
         }
-
-        usuario.setContraseña(encoder.encode(usuario.getContraseña()));
-        return usuarioRepository.save(usuario);
+        usuarioRepository.save(usuario);
+        return true;
     }
 
-    // 🔐 Nuevo método de autenticación
-    public boolean autenticarUsuario(String correo, String contraseñaIngresada) {
-        Usuario usuario = usuarioRepository.findByCorreo(correo);
-        if (usuario == null) {
-            return false;
-        }
-        return encoder.matches(contraseñaIngresada, usuario.getContraseña());
+    public Optional<Usuario> login(String email, String password) {
+        return usuarioRepository.findByEmailAndPassword(email, password);
+    }
+
+    public Optional<Usuario> buscarPorEmail(String email) {
+        return usuarioRepository.findByEmail(email);
     }
 }
