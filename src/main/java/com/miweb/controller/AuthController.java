@@ -1,6 +1,6 @@
-package com.miweb.demo.controller;
+package com.miweb.controller;
 
-import com.miweb.demo.model.User;
+import com.miweb.model.User;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 

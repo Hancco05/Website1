@@ -1,4 +1,4 @@
-package com.miweb.demo.model;
+package com.miweb.model;
 
 public class User {
     private String nombre;

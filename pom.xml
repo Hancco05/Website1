@@ -18,7 +18,6 @@
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>3.1.1</version>
     <relativePath/>
-    <!-- busca el padre en el repositorio local -->
   </parent>
 
   <properties>
@@ -37,6 +36,25 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
+    </dependency>
+
+    <!-- Spring Data JPA para persistencia -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+
+    <!-- Base de datos H2 en memoria -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- Spring Security -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
 
     <!-- Opcional: para desarrollo, reinicio automático -->
