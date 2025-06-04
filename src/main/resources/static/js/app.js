@@ -1,20 +1,23 @@
-// URLs del backend
 const BASE_URL = 'http://localhost:8081/api';
 
-// Elementos HTML
-const loginForm = document.getElementById('loginForm');
-const registerForm = document.getElementById('registerForm');
+// Utilidad para mostrar alertas simples
+const showAlert = (message) => alert(message);
 
-// Manejar Login
+// Obtener datos de un campo de texto
+const getValue = (id) => document.getElementById(id)?.value.trim() || '';
+
+// ------------------ LOGIN ------------------
+const loginForm = document.getElementById('loginForm');
+
 if (loginForm) {
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const usuario = document.getElementById('loginUsuario').value.trim();
-    const password = document.getElementById('loginPassword').value.trim();
+    const usuario = getValue('loginUsuario');
+    const password = getValue('loginPassword');
 
     if (!usuario || !password) {
-      alert('Por favor ingresa usuario y contraseña');
+      showAlert('Por favor ingresa usuario y contraseña');
       return;
     }
 
@@ -25,36 +28,38 @@ if (loginForm) {
         body: JSON.stringify({ usuario, password }),
       });
 
+      if (!res.ok) throw new Error('Respuesta inválida del servidor');
+
       const user = await res.json();
 
-      if (user && user.usuario) {
-        // Guardar usuario en localStorage
+      if (user?.usuario) {
         localStorage.setItem('usuarioLogeado', JSON.stringify(user));
-        // Redirigir a main.html
         window.location.href = 'main.html';
       } else {
-        alert('Usuario o contraseña incorrectos');
+        showAlert('Usuario o contraseña incorrectos');
       }
     } catch (error) {
-      alert('Error en la conexión al servidor');
-      console.error(error);
+      console.error('Login error:', error);
+      showAlert('Error en la conexión al servidor');
     }
   });
 }
 
-// Manejar Registro
+// ------------------ REGISTRO ------------------
+const registerForm = document.getElementById('registerForm');
+
 if (registerForm) {
   registerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const nombre = document.getElementById('regNombre').value.trim();
-    const edad = parseInt(document.getElementById('regEdad').value.trim());
-    const estadoCivil = document.getElementById('regEstadoCivil').value.trim();
-    const usuario = document.getElementById('regUsuario').value.trim();
-    const password = document.getElementById('regPassword').value.trim();
+    const nombre = getValue('regNombre');
+    const edad = parseInt(getValue('regEdad'), 10);
+    const estadoCivil = getValue('regEstadoCivil');
+    const usuario = getValue('regUsuario');
+    const password = getValue('regPassword');
 
     if (!nombre || !edad || !estadoCivil || !usuario || !password) {
-      alert('Por favor completa todos los campos');
+      showAlert('Por favor completa todos los campos');
       return;
     }
 
@@ -65,40 +70,49 @@ if (registerForm) {
         body: JSON.stringify({ nombre, edad, estadoCivil, usuario, password }),
       });
 
+      if (!res.ok) throw new Error('Error en el registro');
+
       const msg = await res.text();
 
-      alert(msg);
+      showAlert(msg);
 
-      if (msg === 'Registro exitoso') {
-        // Volver a login
+      if (msg.toLowerCase().includes('exitoso')) {
         window.location.href = 'login.html';
       }
     } catch (error) {
-      alert('Error en la conexión al servidor');
-      console.error(error);
+      console.error('Registro error:', error);
+      showAlert('Error en la conexión al servidor');
     }
   });
 }
 
-// En main.html mostrar datos del usuario logueado
+// ------------------ MAIN (pantalla principal) ------------------
 if (window.location.pathname.endsWith('main.html')) {
   const usuarioData = localStorage.getItem('usuarioLogeado');
+
   if (!usuarioData) {
-    alert('No estás logueado');
+    showAlert('No estás logueado');
     window.location.href = 'login.html';
   } else {
-    const user = JSON.parse(usuarioData);
-    document.getElementById('bienvenida').textContent = `¡Bienvenido, ${user.nombre}!`;
-    document.getElementById('datosUsuario').innerHTML = `
-      <p><b>Nombre:</b> ${user.nombre}</p>
-      <p><b>Edad:</b> ${user.edad}</p>
-      <p><b>Estado Civil:</b> ${user.estadoCivil}</p>
-      <p><b>Usuario:</b> ${user.usuario}</p>
-    `;
+    try {
+      const user = JSON.parse(usuarioData);
+      document.getElementById('bienvenida').textContent = `¡Bienvenido, ${user.nombre}!`;
+
+      document.getElementById('datosUsuario').innerHTML = `
+        <p><b>Nombre:</b> ${user.nombre}</p>
+        <p><b>Edad:</b> ${user.edad}</p>
+        <p><b>Estado Civil:</b> ${user.estadoCivil}</p>
+        <p><b>Usuario:</b> ${user.usuario}</p>
+      `;
+    } catch (error) {
+      console.error('Error al cargar datos del usuario:', error);
+      localStorage.removeItem('usuarioLogeado');
+      window.location.href = 'login.html';
+    }
   }
 }
 
-// Opción para cerrar sesión en main.html
+// ------------------ Cerrar sesión ------------------
 function cerrarSesion() {
   localStorage.removeItem('usuarioLogeado');
   window.location.href = 'login.html';
