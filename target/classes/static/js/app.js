@@ -1,95 +1,105 @@
-// URL base para backend
-const BASE_URL = "/api/auth";
+// URLs del backend
+const BASE_URL = 'http://localhost:8081/api';
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Detectar qué página estamos para asignar eventos
-    if (document.getElementById("loginForm")) {
-        setupLogin();
+// Elementos HTML
+const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
+
+// Manejar Login
+if (loginForm) {
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const usuario = document.getElementById('loginUsuario').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+
+    if (!usuario || !password) {
+      alert('Por favor ingresa usuario y contraseña');
+      return;
     }
-    if (document.getElementById("registerForm")) {
-        setupRegister();
+
+    try {
+      const res = await fetch(`${BASE_URL}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ usuario, password }),
+      });
+
+      const user = await res.json();
+
+      if (user && user.usuario) {
+        // Guardar usuario en localStorage
+        localStorage.setItem('usuarioLogeado', JSON.stringify(user));
+        // Redirigir a main.html
+        window.location.href = 'main.html';
+      } else {
+        alert('Usuario o contraseña incorrectos');
+      }
+    } catch (error) {
+      alert('Error en la conexión al servidor');
+      console.error(error);
     }
-    if (document.getElementById("logoutBtn")) {
-        setupMain();
-    }
-});
-
-function setupLogin() {
-    const form = document.getElementById("loginForm");
-    const message = document.getElementById("loginMessage");
-
-    form.addEventListener("submit", async e => {
-        e.preventDefault();
-        const username = form.username.value.trim();
-        const password = form.password.value.trim();
-
-        const res = await fetch(`${BASE_URL}/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password })
-        });
-
-        const data = await res.json();
-
-        if(data.success){
-            // Guardar usuario en sessionStorage para main
-            sessionStorage.setItem("user", JSON.stringify(data.user));
-            window.location.href = "main.html";
-        } else {
-            message.textContent = data.message || "Error en el login";
-        }
-    });
+  });
 }
 
-function setupRegister() {
-    const form = document.getElementById("registerForm");
-    const message = document.getElementById("registerMessage");
+// Manejar Registro
+if (registerForm) {
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-    form.addEventListener("submit", async e => {
-        e.preventDefault();
-        const user = {
-            nombre: form.nombre.value.trim(),
-            edad: parseInt(form.edad.value),
-            estadoCivil: form.estadoCivil.value,
-            username: form.username.value.trim(),
-            password: form.password.value.trim()
-        };
+    const nombre = document.getElementById('regNombre').value.trim();
+    const edad = parseInt(document.getElementById('regEdad').value.trim());
+    const estadoCivil = document.getElementById('regEstadoCivil').value.trim();
+    const usuario = document.getElementById('regUsuario').value.trim();
+    const password = document.getElementById('regPassword').value.trim();
 
-        const res = await fetch(`${BASE_URL}/register`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(user)
-        });
-
-        const data = await res.json();
-
-        if(data.success){
-            message.style.color = "green";
-            message.textContent = data.message;
-            setTimeout(() => {
-                window.location.href = "login.html";
-            }, 1500);
-        } else {
-            message.style.color = "red";
-            message.textContent = data.message || "Error en el registro";
-        }
-    });
-}
-
-function setupMain() {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    if (!user) {
-        window.location.href = "login.html";
-        return;
+    if (!nombre || !edad || !estadoCivil || !usuario || !password) {
+      alert('Por favor completa todos los campos');
+      return;
     }
 
-    document.getElementById("userName").textContent = user.nombre;
-    document.getElementById("userEdad").textContent = user.edad;
-    document.getElementById("userEstadoCivil").textContent = user.estadoCivil;
+    try {
+      const res = await fetch(`${BASE_URL}/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, edad, estadoCivil, usuario, password }),
+      });
 
-    const logoutBtn = document.getElementById("logoutBtn");
-    logoutBtn.addEventListener("click", () => {
-        sessionStorage.removeItem("user");
-        window.location.href = "login.html";
-    });
+      const msg = await res.text();
+
+      alert(msg);
+
+      if (msg === 'Registro exitoso') {
+        // Volver a login
+        window.location.href = 'login.html';
+      }
+    } catch (error) {
+      alert('Error en la conexión al servidor');
+      console.error(error);
+    }
+  });
+}
+
+// En main.html mostrar datos del usuario logueado
+if (window.location.pathname.endsWith('main.html')) {
+  const usuarioData = localStorage.getItem('usuarioLogeado');
+  if (!usuarioData) {
+    alert('No estás logueado');
+    window.location.href = 'login.html';
+  } else {
+    const user = JSON.parse(usuarioData);
+    document.getElementById('bienvenida').textContent = `¡Bienvenido, ${user.nombre}!`;
+    document.getElementById('datosUsuario').innerHTML = `
+      <p><b>Nombre:</b> ${user.nombre}</p>
+      <p><b>Edad:</b> ${user.edad}</p>
+      <p><b>Estado Civil:</b> ${user.estadoCivil}</p>
+      <p><b>Usuario:</b> ${user.usuario}</p>
+    `;
+  }
+}
+
+// Opción para cerrar sesión en main.html
+function cerrarSesion() {
+  localStorage.removeItem('usuarioLogeado');
+  window.location.href = 'login.html';
 }

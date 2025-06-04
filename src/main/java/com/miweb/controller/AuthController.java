@@ -2,47 +2,36 @@ package com.miweb.controller;
 
 import com.miweb.model.User;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class AuthController {
 
-    private final List<User> users = new ArrayList<>();
+    private final List<User> usuarios = new ArrayList<>();
 
     @PostMapping("/register")
-    public Map<String, Object> register(@RequestBody User user) {
-        Map<String, Object> res = new HashMap<>();
-        Optional<User> exists = users.stream()
-                .filter(u -> u.getUsername().equals(user.getUsername()))
-                .findFirst();
-        if (exists.isPresent()) {
-            res.put("success", false);
-            res.put("message", "Usuario ya existe");
-            return res;
+    public String registrarUsuario(@RequestBody User user) {
+        for (User u : usuarios) {
+            if (u.getUsuario().equals(user.getUsuario())) {
+                return "El usuario ya existe";
+            }
         }
-        users.add(user);
-        res.put("success", true);
-        res.put("message", "Usuario registrado correctamente");
-        return res;
+        usuarios.add(user);
+        return "Registro exitoso";
     }
 
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody Map<String, String> credentials) {
-        Map<String, Object> res = new HashMap<>();
-        String username = credentials.get("username");
-        String password = credentials.get("password");
-        Optional<User> user = users.stream()
-                .filter(u -> u.getUsername().equals(username) && u.getPassword().equals(password))
-                .findFirst();
-        if (user.isPresent()) {
-            res.put("success", true);
-            res.put("user", user.get());
-        } else {
-            res.put("success", false);
-            res.put("message", "Credenciales inválidas");
+    public User login(@RequestBody User credentials) {
+        for (User u : usuarios) {
+            if (u.getUsuario().equals(credentials.getUsuario()) &&
+                    u.getPassword().equals(credentials.getPassword())) {
+                return u;
+            }
         }
-        return res;
+        return null;
     }
 }

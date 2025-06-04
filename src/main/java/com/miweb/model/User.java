@@ -4,22 +4,21 @@ public class User {
     private String nombre;
     private int edad;
     private String estadoCivil;
-    private String username;
+    private String usuario;
     private String password;
 
-    // Constructor vacío
     public User() {
     }
 
-    public User(String nombre, int edad, String estadoCivil, String username, String password) {
+    public User(String nombre, int edad, String estadoCivil, String usuario, String password) {
         this.nombre = nombre;
         this.edad = edad;
         this.estadoCivil = estadoCivil;
-        this.username = username;
+        this.usuario = usuario;
         this.password = password;
     }
 
-    // Getters y setters
+    // Getters y Setters
     public String getNombre() {
         return nombre;
     }
@@ -44,12 +43,12 @@ public class User {
         this.estadoCivil = estadoCivil;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public String getPassword() {
