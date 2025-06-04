@@ -1,8 +1,5 @@
-com\miweb\repository\UsuarioRepository.class
-com\miweb\util\DebugFlags.class
-com\miweb\config\CorsConfig$1.class
-com\miweb\model\Usuario.class
-com\miweb\HomeController.class
-com\miweb\MiwebApplication.class
-com\miweb\controller\UsuarioController.class
-com\miweb\config\CorsConfig.class
+com\miweb\demo\DemoApplication.class
+com\miweb\service\UserService.class
+com\miweb\model\User.class
+com\miweb\repository\UserRepository.class
+com\miweb\controller\AuthController.class
