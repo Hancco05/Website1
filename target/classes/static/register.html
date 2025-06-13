@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Registrar Usuario - MiWeb</title>
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+    
+    <form id="registerForm">
+        <h1>Registro de Usuario</h1>
+        <label for="regNombre">Nombre:</label><br />
+        <input type="text" id="regNombre" name="regNombre" required /><br /><br />
+
+        <label for="regEdad">Edad:</label><br />
+        <input type="number" id="regEdad" name="regEdad" required min="1" /><br /><br />
+
+        <label for="regEstadoCivil">Estado Civil:</label><br />
+        <select id="regEstadoCivil" name="regEstadoCivil" required>
+            <option value="">Seleccione</option>
+            <option value="Soltero/a">Soltero/a</option>
+            <option value="Casado/a">Casado/a</option>
+            <option value="Otro">Otro</option>
+        </select><br /><br />
+
+        <label for="regUsuario">Usuario:</label><br />
+        <input type="text" id="regUsuario" name="regUsuario" required /><br /><br />
+
+        <label for="regPassword">Contraseña:</label><br />
+        <input type="password" id="regPassword" name="regPassword" required /><br /><br />
+
+        <button type="submit">Registrar</button>
+        <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a></p>
+    </form>
+
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
